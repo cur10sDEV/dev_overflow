@@ -58,6 +58,15 @@ const Theme = () => {
                 height={16}
                 className={`${mode === theme.value && "active-theme"}`}
               />
+              <p
+                className={`body-semibold text-light-500 ${
+                  mode === theme.value
+                    ? "text-primary-500"
+                    : "text-dark100_light900"
+                }`}
+              >
+                {theme.label}
+              </p>
             </MenubarItem>
           ))}
         </MenubarContent>
