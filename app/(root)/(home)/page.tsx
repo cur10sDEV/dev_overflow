@@ -5,52 +5,12 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to use TypeScript with React?",
-    tags: [
-      { _id: 1, name: "typescript" },
-      { _id: 2, name: "react" },
-    ],
-    author: {
-      _id: "user1",
-      name: "John Doe",
-      picture: "https://example.com/john-doe.jpg",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [
-      { text: "You can use the `tsx` file extension for TypeScript in React." },
-      { text: "Make sure to install the @types/react package." },
-    ],
-    createdAt: new Date("2023-01-14T12:00:00Z"),
-  },
-  {
-    _id: "2",
-    title: "Best practices for unit testing in Angular",
-    tags: [
-      { _id: 3, name: "angular" },
-      { _id: 4, name: "testing" },
-    ],
-    author: {
-      _id: "user2",
-      name: "Jane Smith",
-      picture: "https://example.com/jane-smith.jpg",
-    },
-    upvotes: 15,
-    views: 120,
-    answers: [
-      { text: "Use Jasmine for testing Angular components." },
-      { text: "Mock services using TestBed.configureTestingModule." },
-    ],
-    createdAt: new Date("2023-12-01T10:30:00Z"),
-  },
-];
+export default async function Home() {
+  const result = await getQuestions({});
 
-export default function Home() {
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -77,9 +37,21 @@ export default function Home() {
       </div>
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((item) => {
-            return <QuestionCard key={item._id} {...item} />;
+        {result.questions.length > 0 ? (
+          result.questions.map((item) => {
+            return (
+              <QuestionCard
+                key={item._id}
+                _id={item._id}
+                title={item.title}
+                tags={item.tags}
+                author={item.author}
+                upvotes={item.upvotes}
+                views={item.views}
+                answers={item.answers}
+                createdAt={item.createdAt}
+              />
+            );
           })
         ) : (
           <NoResult
