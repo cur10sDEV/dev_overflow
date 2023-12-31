@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 export async function POST(req: Request) {
-  console.log(req);
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   // TODO: Add your webhook secret to .env.local
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
@@ -90,7 +89,7 @@ export async function POST(req: Request) {
       path: `/profile/${id}`,
     });
 
-    return NextResponse.json({ status: 201, message: "OK", user: mongoUser });
+    return NextResponse.json({ status: 200, message: "OK", user: mongoUser });
   }
 
   // user deleted
@@ -102,8 +101,8 @@ export async function POST(req: Request) {
       clerkId: id!,
     });
 
-    return NextResponse.json({ status: 201, message: "OK", user: deletedUser });
+    return NextResponse.json({ status: 200, message: "OK", user: deletedUser });
   }
 
-  return new Response("", { status: 201 });
+  return new Response("", { status: 200 });
 }
