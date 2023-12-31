@@ -19,6 +19,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Editor as TinyMCEEditor } from "tinymce";
 import * as z from "zod";
 import { Badge } from "../ui/badge";
 
@@ -28,7 +29,7 @@ interface Props {
   mongoUserId: string;
 }
 const Question = ({ mongoUserId }: Props) => {
-  const editorRef = useRef(null);
+  const editorRef = useRef<TinyMCEEditor | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
