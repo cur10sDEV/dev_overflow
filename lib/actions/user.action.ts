@@ -7,10 +7,27 @@ import { connectDB } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
 
+// get all users
+export const getAllUsers = async (params: GetAllUsersParams) => {
+  try {
+    connectDB();
+
+    // const { page = 1, pageSize = 20, searchQuery, filter } = params;
+
+    const users = await User.find({}).sort({ createdAt: -1 });
+
+    return { users };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// get user by id
 export const getUserById = async (params: GetUserByIdParams) => {
   try {
     connectDB();
@@ -26,6 +43,7 @@ export const getUserById = async (params: GetUserByIdParams) => {
   }
 };
 
+// create user
 export const createUser = async (userData: CreateUserParams) => {
   try {
     connectDB();
@@ -39,6 +57,7 @@ export const createUser = async (userData: CreateUserParams) => {
   }
 };
 
+// update user
 export const updateUser = async (params: UpdateUserParams) => {
   try {
     connectDB();
@@ -54,6 +73,7 @@ export const updateUser = async (params: UpdateUserParams) => {
   }
 };
 
+// delete user
 export const deleteUser = async (params: DeleteUserParams) => {
   try {
     connectDB();

@@ -15,7 +15,7 @@ interface filter {
 
 interface Props {
   filters: filter[];
-  containerClasses: string;
+  containerClasses?: string;
   otherClasses: string;
 }
 
