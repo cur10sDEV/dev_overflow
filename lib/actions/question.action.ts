@@ -6,9 +6,13 @@ import User from "@/database/user.model";
 import console from "console";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "../mongoose";
-import { CreateQuestionParams, GetQuestionsParams } from "./shared.types";
+import {
+  CreateQuestionParams,
+  GetQuestionByIdParams,
+  GetQuestionsParams,
+} from "./shared.types";
 
-// <================ GET =========================>
+// <================= GET =========================>
 
 // get all questions - /
 export const getQuestions = async (params: GetQuestionsParams) => {
@@ -21,6 +25,28 @@ export const getQuestions = async (params: GetQuestionsParams) => {
       .sort({ createdAt: -1 }); // latest on top
 
     return { questions };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// get a question by id - /question/:id
+export const getQuestionById = async (params: GetQuestionByIdParams) => {
+  try {
+    connectDB();
+
+    const { questionId } = params;
+
+    const question = await Question.findById(questionId)
+      .populate({ path: "tags", model: Tag, select: ["_id", "name"] })
+      .populate({
+        path: "author",
+        model: User,
+        select: ["_id", "clerkId", "name", "picture"],
+      });
+
+    return { question };
   } catch (error) {
     console.error(error);
     throw error;
