@@ -12,7 +12,6 @@ import {
   UpdateUserParams,
 } from "./shared.types";
 
-// get all users
 export const getAllUsers = async (params: GetAllUsersParams) => {
   try {
     connectDB();
@@ -27,7 +26,6 @@ export const getAllUsers = async (params: GetAllUsersParams) => {
   }
 };
 
-// get user by id
 export const getUserById = async (params: GetUserByIdParams) => {
   try {
     connectDB();
@@ -43,7 +41,6 @@ export const getUserById = async (params: GetUserByIdParams) => {
   }
 };
 
-// create user
 export const createUser = async (userData: CreateUserParams) => {
   try {
     connectDB();
@@ -57,7 +54,6 @@ export const createUser = async (userData: CreateUserParams) => {
   }
 };
 
-// update user
 export const updateUser = async (params: UpdateUserParams) => {
   try {
     connectDB();
@@ -73,7 +69,6 @@ export const updateUser = async (params: UpdateUserParams) => {
   }
 };
 
-// delete user
 export const deleteUser = async (params: DeleteUserParams) => {
   try {
     connectDB();

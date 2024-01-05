@@ -10,11 +10,9 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "./shared.types";
 
-// <================= GET =========================>
-
-// get all questions - /
 export const getQuestions = async (params: GetQuestionsParams) => {
   try {
     connectDB();
@@ -31,7 +29,6 @@ export const getQuestions = async (params: GetQuestionsParams) => {
   }
 };
 
-// get a question by id - /question/:id
 export const getQuestionById = async (params: GetQuestionByIdParams) => {
   try {
     connectDB();
@@ -53,9 +50,6 @@ export const getQuestionById = async (params: GetQuestionByIdParams) => {
   }
 };
 
-// <=============== POST =========================>
-
-// create a question - /ask-question
 export const createQuestion = async (params: CreateQuestionParams) => {
   try {
     connectDB();
@@ -93,5 +87,78 @@ export const createQuestion = async (params: CreateQuestionParams) => {
     revalidatePath(path); // upon redirecting re-render - to get the latest questions
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+};
+
+export const upvoteQuestion = async (params: QuestionVoteParams) => {
+  try {
+    connectDB();
+
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasupVoted) {
+      updateQuery = { $pull: { upvotes: userId } };
+    } else if (hasdownVoted) {
+      updateQuery = {
+        $pull: { downvotes: userId },
+        $push: { upvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { upvotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found!");
+    }
+
+    // increment author's reputation
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const downvoteQuestion = async (params: QuestionVoteParams) => {
+  try {
+    connectDB();
+
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasdownVoted) {
+      updateQuery = { $pull: { downvotes: userId } };
+    } else if (hasupVoted) {
+      updateQuery = {
+        $pull: { upvotes: userId },
+        $push: { downvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downvotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found!");
+    }
+
+    // increment author's reputation
+
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
