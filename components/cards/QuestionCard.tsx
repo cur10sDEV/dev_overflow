@@ -4,6 +4,7 @@ import Metric from "../shared/Metric";
 import RenderTag from "../shared/RenderTag";
 // Remember/Future :- maybe id needs to be a string
 interface QuestionProps {
+  clerkId?: string | null;
   _id: string;
   title: string;
   tags: {
@@ -22,6 +23,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({
+  clerkId,
   _id,
   title,
   tags,
