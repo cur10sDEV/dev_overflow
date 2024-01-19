@@ -1,6 +1,9 @@
 "use client";
 import { Input } from "@/components/ui/input";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Props {
   route: string;
@@ -17,13 +20,44 @@ const LocalSearchBar = ({
   placeholder,
   otherClasses,
 }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const query = searchParams.get("q");
+  const [search, setSearch] = useState(query || "");
+
+  useEffect(() => {
+    const debouncedFn = setTimeout(() => {
+      if (search) {
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "q",
+          value: search,
+        });
+
+        router.push(newUrl, { scroll: false });
+      } else {
+        if (pathname === route) {
+          const newUrl = removeKeysFromQuery({
+            params: searchParams.toString(),
+            keysToRemove: ["q"],
+          });
+          router.push(newUrl, { scroll: false });
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(debouncedFn);
+  }, [search, searchParams, query, route, router, pathname]);
+
   return (
     <div
       className={`${otherClasses} background-light800_darkgradient relative flex min-h-[56px] flex-1 grow items-center gap-4 rounded-[10px] px-4`}
     >
       {iconPosition === "left" && (
         <Image
-          src="/assets/icons/search.svg"
+          src={icon}
           alt="search"
           width={24}
           height={24}
@@ -33,13 +67,13 @@ const LocalSearchBar = ({
       <Input
         type="text"
         placeholder={placeholder}
-        value=""
+        value={search}
         className="paragraph-regular no-focus placeholder background-light800_darkgradient border-none shadow-none outline-none focus:border-none"
-        onChange={() => {}}
+        onChange={(e) => setSearch(e.target.value)}
       />
       {iconPosition === "right" && (
         <Image
-          src="/assets/icons/search.svg"
+          src={icon}
           alt="search"
           width={24}
           height={24}
