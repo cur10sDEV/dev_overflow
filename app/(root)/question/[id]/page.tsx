@@ -7,17 +7,18 @@ import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimestamp } from "@/lib/utils";
+import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Params {
+interface Params extends SearchParamsProps {
   params: {
     id: string;
   };
 }
 
-const Page = async ({ params }: Params) => {
+const Page = async ({ params, searchParams }: Params) => {
   const { question } = await getQuestionById({ questionId: params.id });
   const { userId: clerkId } = auth();
 
@@ -104,6 +105,8 @@ const Page = async ({ params }: Params) => {
         questionId={question._id}
         userId={mongoUser._id}
         totalAnswers={question.answers.length}
+        filter={searchParams?.filter}
+        page={searchParams?.page}
       />
 
       <Answer

@@ -22,10 +22,11 @@ export const getQuestions = async (params: GetQuestionsParams) => {
   try {
     connectDB();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
+    // searching
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
@@ -33,10 +34,30 @@ export const getQuestions = async (params: GetQuestionsParams) => {
       ];
     }
 
+    // filters - sorting
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+
+      default:
+        break;
+    }
+
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 }); // latest on top
+      .sort(sortOptions);
 
     return { questions };
   } catch (error) {
