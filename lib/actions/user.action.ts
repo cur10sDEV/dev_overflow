@@ -21,9 +21,11 @@ export const getAllUsers = async (params: GetAllUsersParams) => {
   try {
     connectDB();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
     const query: FilterQuery<typeof User> = {};
+
+    const skipAmount = (page - 1) * pageSize;
 
     // search
     if (searchQuery) {
@@ -40,6 +42,7 @@ export const getAllUsers = async (params: GetAllUsersParams) => {
       case "new_users":
         sortOptions = { joinedAt: -1 };
         break;
+
       case "old_users":
         sortOptions = { joinedAt: 1 };
         break;
@@ -51,9 +54,16 @@ export const getAllUsers = async (params: GetAllUsersParams) => {
         break;
     }
 
-    const users = await User.find(query).sort(sortOptions);
+    const users = await User.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
 
-    return { users };
+    const totalUsers = await User.countDocuments(query);
+
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.error(error);
   }
@@ -176,6 +186,9 @@ export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
     const { clerkId, page = 1, pageSize = 10, searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
+
+    const skipAmount = (page - 1) * (pageSize + 1);
+
     if (searchQuery) {
       query.$or = [
         { title: { $regex: new RegExp(searchQuery, "i") } },
@@ -211,7 +224,8 @@ export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
       match: query,
       options: {
         sort: sortOptions,
-        skip: (page - 1) * pageSize,
+        skip: skipAmount,
+        limit: pageSize + 1,
       },
       populate: [
         { path: "tags", model: Tag, select: ["_id", "name"] },
@@ -229,7 +243,9 @@ export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
 
     const savedQuestions = user.saved;
 
-    return { questions: savedQuestions };
+    const isNext = savedQuestions.length > pageSize;
+
+    return { questions: savedQuestions, isNext };
   } catch (error) {
     console.error(error);
     throw error;
@@ -266,10 +282,11 @@ export const getUserQuestions = async (params: GetUserStatsParams) => {
   try {
     connectDB();
 
-    // const { userId, page = 1, pageSize = 10 } = params;
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 10 } = params;
 
     const totalQuestions = await Question.countDocuments({ author: userId });
+
+    const skipAmount = (page - 1) * pageSize;
 
     const userQuestions = await Question.find({ author: userId })
       .populate({
@@ -280,9 +297,13 @@ export const getUserQuestions = async (params: GetUserStatsParams) => {
         path: "tags",
         select: "_id name",
       })
+      .limit(pageSize)
+      .skip(skipAmount)
       .sort({ views: -1, upvotes: -1 });
 
-    return { totalQuestions, questions: userQuestions };
+    const isNext = totalQuestions > skipAmount + userQuestions.length;
+
+    return { totalQuestions, questions: userQuestions, isNext };
   } catch (error) {
     console.error(error);
     throw error;
@@ -293,8 +314,9 @@ export const getUserAnswers = async (params: GetUserStatsParams) => {
   try {
     connectDB();
 
-    // const { userId, page = 1, pageSize = 10 } = params;
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 10 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });
 
@@ -307,9 +329,13 @@ export const getUserAnswers = async (params: GetUserStatsParams) => {
         path: "question",
         select: "_id title",
       })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort({ upvotes: -1 });
 
-    return { totalAnswers, answers: userAnswers };
+    const isNext = totalAnswers > skipAmount + pageSize;
+
+    return { totalAnswers, answers: userAnswers, isNext };
   } catch (error) {
     console.error(error);
     throw error;
