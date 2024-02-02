@@ -299,7 +299,7 @@ export const getUserQuestions = async (params: GetUserStatsParams) => {
       })
       .limit(pageSize)
       .skip(skipAmount)
-      .sort({ views: -1, upvotes: -1 });
+      .sort({ createdAt: -1, views: -1, upvotes: -1 });
 
     const isNext = totalQuestions > skipAmount + userQuestions.length;
 
