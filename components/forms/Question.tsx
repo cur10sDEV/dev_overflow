@@ -20,6 +20,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Editor as TinyMCEEditor } from "tinymce";
 import * as z from "zod";
 import { Badge } from "../ui/badge";
@@ -62,6 +63,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
           path: pathName,
         });
 
+        toast.success("Question submitted successfully");
         router.push("/");
       } else if (type === "edit") {
         await editQuestion({
@@ -71,9 +73,15 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
           path: pathName,
         });
 
+        toast.success("Question updated successfully");
         router.push(`/question/${parsedQuestionDetails._id}`);
       }
     } catch (error) {
+      type === "create"
+        ? toast.error("Question submission failed")
+        : type === "edit"
+          ? toast.error("Question updation failed")
+          : toast.error("Server Error");
       console.error(error);
     } finally {
       setIsSubmitting(false);

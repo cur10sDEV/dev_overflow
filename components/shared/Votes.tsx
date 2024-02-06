@@ -11,6 +11,7 @@ import { formatNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface Props {
   type: string;
@@ -46,11 +47,17 @@ const Votes = ({
       questionId: JSON.parse(itemId),
       path: pathname,
     });
+
+    hasSaved
+      ? toast.error("Removed from your collection")
+      : toast.success("Saved in your collection");
   };
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      return;
+      return toast("Please Log In", {
+        description: "You must be logged in to perform this action",
+      });
     }
 
     if (action === "upvote") {
@@ -72,7 +79,9 @@ const Votes = ({
         });
       }
 
-      // TODO: show a toast
+      hasupVoted
+        ? toast.error("Upvote Removed")
+        : toast.success("Upvote Sucessfull");
       return;
     }
 
@@ -94,7 +103,10 @@ const Votes = ({
           path: pathname,
         });
       }
-      // TODO: show a toast
+
+      hasdownVoted
+        ? toast.error("Downvote Removed")
+        : toast.success("Downvote Sucessfull");
     }
   };
 

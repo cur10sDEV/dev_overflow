@@ -8,6 +8,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Editor as TinyMCEEditor } from "tinymce";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -50,6 +51,8 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         path: pathname,
       });
 
+      toast.success("Answer submitted successfully");
+
       form.reset();
 
       if (editorRef.current) {
@@ -58,6 +61,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         editor.setContent = "";
       }
     } catch (error) {
+      toast.error("Failed to submit the answer");
       console.error(error);
     } finally {
       setIsSubmitting(false);
@@ -87,8 +91,9 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         editor.setContent(formattedAnswer);
       }
 
-      // toast notification
+      toast.success("AI Answer created successfully");
     } catch (error) {
+      toast.error("Failed to generate an AI answer");
       console.error(error);
     } finally {
       setIsSubmittingAI(false);

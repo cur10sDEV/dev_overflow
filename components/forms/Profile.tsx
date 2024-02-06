@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 import { Textarea } from "../ui/textarea";
 
@@ -55,8 +56,10 @@ const Profile = ({ clerkId, user }: Props) => {
         path: pathname,
       });
 
+      toast.success("User profile updated successfully");
       router.back();
     } catch (error) {
+      toast.error("Error updating user profile");
       console.error(error);
     } finally {
       setIsSubmitting(false);
