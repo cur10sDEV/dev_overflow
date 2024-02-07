@@ -50,7 +50,6 @@ export const getAnswers = async (params: GetAnswersParams) => {
   try {
     connectDB();
 
-    // const {questionId, page,pageSize,sortBy} = params;
     const { questionId, sortBy } = params;
 
     let sortOptions = {};

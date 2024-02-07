@@ -77,12 +77,12 @@ const Profile = ({ clerkId, user }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>
+              <FormLabel className="paragraph-semibold text-dark400_light800">
                 Name <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
                   placeholder="Your Name"
                   {...field}
                 />
@@ -96,12 +96,12 @@ const Profile = ({ clerkId, user }: Props) => {
           name="username"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>
+              <FormLabel className="paragraph-semibold text-dark400_light800">
                 Username <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
                   placeholder="Your Username"
                   {...field}
                 />
@@ -115,11 +115,13 @@ const Profile = ({ clerkId, user }: Props) => {
           name="portfolioWebsite"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>Portfolio Website</FormLabel>
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Portfolio Website
+              </FormLabel>
               <FormControl>
                 <Input
                   type="url"
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
                   placeholder="Your Portfolio URL"
                   {...field}
                 />
@@ -133,10 +135,12 @@ const Profile = ({ clerkId, user }: Props) => {
           name="location"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>Location</FormLabel>
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Location
+              </FormLabel>
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
                   placeholder="Where are you from?"
                   {...field}
                 />
@@ -150,10 +154,12 @@ const Profile = ({ clerkId, user }: Props) => {
           name="bio"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>Bio</FormLabel>
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Bio <span className="text-primary-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Textarea
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"
                   placeholder="What's special about you?"
                   {...field}
                 />
