@@ -9,12 +9,25 @@ import { getUserById } from "@/lib/actions/user.action";
 import { formatNumber, getTimestamp } from "@/lib/utils";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
+import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Params extends SearchParamsProps {
   params: {
     id: string;
+  };
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Params,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const { question } = await getQuestionById({ questionId: params.id });
+
+  return {
+    title: `${question.title} | DevOverflow`,
   };
 }
 

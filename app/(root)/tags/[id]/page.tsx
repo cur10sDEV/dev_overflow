@@ -5,9 +5,27 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
 
+import type { Metadata, ResolvingMetadata } from "next";
+
 interface Props extends SearchParamsProps {
   params: {
     id: string;
+  };
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const result = await getQuestionsByTagId({
+    tagId: params.id,
+    page: searchParams?.page ? +searchParams.page : 1,
+    searchQuery: searchParams.q,
+  });
+
+  return {
+    title: `${result.tagTitle} | DevOverflow`,
   };
 }
 

@@ -3,7 +3,20 @@ import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { ParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
+import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
+
+export async function generateMetadata(
+  { params }: ParamsProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const { question } = await getQuestionById({ questionId: params.id });
+
+  return {
+    title: `${question.title} | DevOverflow`,
+  };
+}
 
 const page = async ({ params }: ParamsProps) => {
   const { userId } = auth();
