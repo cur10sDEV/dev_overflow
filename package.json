@@ -21,6 +21,7 @@
     "@tinymce/tinymce-react": "^5.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "groq-sdk": "^0.15.0",
     "html-react-parser": "^5.1.2",
     "lucide-react": "^0.323.0",
     "mongoose": "^8.1.1",
