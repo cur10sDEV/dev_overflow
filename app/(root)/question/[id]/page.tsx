@@ -79,21 +79,21 @@ const Page = async ({ params, searchParams }: Params) => {
 
       <div className="mb-8 mt-5 flex flex-wrap gap-4">
         <Metric
-          imgUrl="assets/icons/clock.svg"
+          imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
           value={`asked ${getTimestamp(question.createdAt)}`}
           title=""
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          imgUrl="assets/icons/message.svg"
+          imgUrl="/assets/icons/message.svg"
           alt="Message"
           value={formatNumber(question.answers.length)}
           title="Answers"
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          imgUrl="assets/icons/eye.svg"
+          imgUrl="/assets/icons/eye.svg"
           alt="Eye"
           value={formatNumber(question.views)}
           title="Views"

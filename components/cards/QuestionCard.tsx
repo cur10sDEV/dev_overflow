@@ -75,21 +75,21 @@ const QuestionCard = ({
 
         <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
           <Metric
-            imgUrl="assets/icons/like.svg"
+            imgUrl="/assets/icons/like.svg"
             alt="Upvotes"
             value={formatNumber(upvotes.length)}
             title="Votes"
             textStyles="small-medium text-dark400_light800"
           />
           <Metric
-            imgUrl="assets/icons/message.svg"
+            imgUrl="/assets/icons/message.svg"
             alt="Message"
             value={formatNumber(answers.length)}
             title="Answers"
             textStyles="small-medium text-dark400_light800"
           />
           <Metric
-            imgUrl="assets/icons/eye.svg"
+            imgUrl="/assets/icons/eye.svg"
             alt="Eye"
             value={formatNumber(views)}
             title="Views"
