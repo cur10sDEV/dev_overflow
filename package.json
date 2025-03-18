@@ -26,6 +26,7 @@
     "ai": "^4.1.61",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "framer-motion": "^12.5.0",
     "groq-sdk": "^0.15.0",
     "html-react-parser": "^5.1.2",
     "lucide-react": "^0.323.0",
