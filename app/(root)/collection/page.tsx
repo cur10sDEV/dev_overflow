@@ -10,7 +10,7 @@ import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Collections | DevOverflow",
+  title: "Collections | KnowledgeFlow",
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {

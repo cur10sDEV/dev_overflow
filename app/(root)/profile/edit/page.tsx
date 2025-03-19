@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Edit Profile | DevOverflow",
+  title: "Edit Profile | KnowledgeFlow",
 };
 
 const page = async ({ params }: ParamsProps) => {

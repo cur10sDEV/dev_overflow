@@ -16,7 +16,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Home | DevOverflow",
+  title: "Home | KnowledgeFlow",
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {

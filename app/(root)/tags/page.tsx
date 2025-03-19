@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Tags | DevOverflow",
+  title: "Tags | KnowledgeFlow",
 };
 
 const Page = async ({ searchParams }: SearchParamsProps) => {

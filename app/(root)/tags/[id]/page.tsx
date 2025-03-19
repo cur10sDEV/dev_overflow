@@ -25,7 +25,7 @@ export async function generateMetadata(
   });
 
   return {
-    title: `${result.tagTitle} | DevOverflow`,
+    title: `${result.tagTitle} | KnowledgeFlow`,
   };
 }
 

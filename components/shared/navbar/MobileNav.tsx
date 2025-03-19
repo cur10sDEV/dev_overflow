@@ -69,10 +69,10 @@ const MobileNav = () => {
             src="/assets/images/site-logo.svg"
             width={23}
             height={23}
-            alt="DevFlow"
+            alt="KnowledgeFlow"
           />
           <p className="h2-bold text-dark100_light900 font-spaceGrotesk">
-            Dev<span className="text-primary-500">Overflow</span>
+            Knowledge<span className="text-primary-500">Flow</span>
           </p>
         </Link>
         <div>
